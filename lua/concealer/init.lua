@@ -1,13 +1,13 @@
-local utils = require("Concealer-nvim.utils")
-local conceal = require("Concealer-nvim.conceal")
-local state = require("Concealer-nvim.state")
+local utils = require("concealer.utils")
+local conceal = require("concealer.conceal")
+local state = require("concealer.state")
+
 local M = {}
 
 local default_config = {
   default_conceal_symbol = "*",
   enabled_by_default = true,
-  conceal_rules = {
-  },
+  conceal_rules = {},
 }
 
 local enabled
@@ -16,9 +16,7 @@ local config
 
 ---@param user_config table | nil
 function M.setup(user_config)
-  if user_config == nil then
-    user_config = {}
-  end
+  user_config = user_config or {}
   utils.merge_table_impl(user_config, default_config)
   config = user_config
   lookup_table = conceal.build_lookup_table(user_config)
@@ -75,7 +73,7 @@ function M.info()
   local buf = vim.api.nvim_create_buf(false, true)
   vim.bo[buf].filetype = "lua"
   vim.api.nvim_buf_set_lines(buf, 0, -1, false, lines)
-  vim.api.nvim_buf_set_name(buf, "Concealer-nvim info")
+  vim.api.nvim_buf_set_name(buf, "concealer info")
   vim.api.nvim_buf_set_keymap(buf, "n", "q", "<cmd>close!<CR>", {
     noremap = true,
     silent = true,
